@@ -42,4 +42,16 @@ class Colima < Formula
     assert_match version.to_s, shell_output("#{bin}/colima version 2>&1")
     assert_match "colima is not running", shell_output("#{bin}/colima status 2>&1", 1)
   end
+
+  plist_options manual: "colima"
+  service do
+    run ["colima", "start"]
+    run_type :immediate
+    keep_alive false
+    working_dir var
+    error_log_path var/"log/colima.log"
+    log_path var/"log/colima.log"
+    working_dir ENV["HOME"]
+  end
+
 end
